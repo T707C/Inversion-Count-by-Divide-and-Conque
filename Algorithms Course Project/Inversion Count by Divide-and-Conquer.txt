@@ -1,0 +1,39 @@
+Inversion Count for an array indicates – how far (or close) the array is from being sorted. If array 
+is already sorted then inversion count is 0. If array is sorted in reverse order then inversion count 
+is the maximum. Formally speaking, two elements a[i] and a[j] form an inversion if a[i] > a[j] 
+and i < j. Example: The sequence 2, 4, 1, 3, 5 has three inversions (2, 1), (4, 1), (4, 3).
+Project Description: the file “IntegerArray.txt” included in this project folder contains all the 
+100,000 integers between 1 and 100,000 (inclusive) in some order, with no integer repeated. 
+Your task is to compute the number of inversions in the file given, where the i-th row of the file 
+indicates the i-th entry of an array. Because of the large size of this array, you should implement 
+a divide-and-conquer algorithm.
+Grade: 100 marks in total, while it accounts for 25% of the final grade.
+Programming language: C/C++, Java, Python, or any other advanced programming languages
+Submission:
+1. Venue: Canvas.
+2. Contents: 
+(1) Code. Please add necessary comments to the code to help me understand and grade 
+your program.
+(2) Running instruction and results. Please provide a Readme.txt file to list the steps to 
+compile and run your program, including the software environment. It is also 
+REQUIRED to provide your running time and running result (a sorted array saved in 
+a file) by including the relevant screenshots/files in a “Result” folder. 
+(3) Project report. Each student is required to submit a project report including at least 
+the following items: abstract, problem description, algorithm (pseudocode), 
+implementation details, running results and analysis, conclusions on what you 
+have learned in the project, and references (if applicable, also explicitly cite them 
+in your project report). 
+Please zip all the above documents into one package and name it as “Your_Last_Name_ 
+Your_First_Name.zip”. The upload page will be closed after the due date, so please upload 
+your assignment before the deadline. You may submit your assignments several times before the 
+deadline. No email submission is accepted.
+1. Correctness (60): 
+2. Efficiency (20):
+3. Report (20):
+-abstract (2): 
+-problem description (2): 
+- algorithm (pseudocode) (8): 
+- implementation details (2): 
+- running results and analysis (4): 
+- conclusions on what you have learned in the project (2): 
+- references (): 
