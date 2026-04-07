@@ -109,7 +109,57 @@ class InversionCounter
         long splitInversions = MergeAndCount(left, right, array);
 
         return leftInversions + rightInversions + splitInversions;
-
-
     }
+
+    /*
+     ======================================================
+                   Merge and Count
+        *  Merges two already-sorted halves ('left' and 'right')
+           back into 'merged', and counts how many split inversions
+           occur in the process.
+
+     ===========================================================
+
+    */
+
+    static long MergeAndCount(long[] left, long[] right, long[] merged)
+    {
+        long splitInversionss = 0;
+        int i = 0;   // pointer into left half
+        int j = 0;   // pointer into right half
+        int k = 0;   // pointer into the merged output
+
+
+        while (i < left.Length && j < right.Length)
+        {
+            if (left[i] <= right[j])
+            {
+                // left element is in the correct relative order — no inversion
+                merged[k++] = left[i++];
+            }
+            else
+            {
+                // right[j] is smaller than left[i] AND every remaining
+                // element in left (since left is sorted).
+                // Each of those remaining left elements would appear BEFORE
+                // right[j] in the original array, so each is an inversion.
+                splitInversions += left.Length - i;
+                merged[k++] = right[j++];
+            }
+        }
+
+
+        // Copy any remaining elements from whichever half isn't exhausted
+        while (i < left.Length)
+            merged[k++] = left[i++];
+
+
+        while (j < right.Length)
+            merged[k++] = right[j++];
+
+
+        return splitInversions;
+    }
+
+
 }
