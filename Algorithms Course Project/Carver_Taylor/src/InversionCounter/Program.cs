@@ -124,7 +124,7 @@ class InversionCounter
 
     static long MergeAndCount(long[] left, long[] right, long[] merged)
     {
-        long splitInversionss = 0;
+        long splitInversions = 0;
         int i = 0;   // pointer into left half
         int j = 0;   // pointer into right half
         int k = 0;   // pointer into the merged output
