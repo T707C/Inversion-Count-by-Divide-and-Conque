@@ -1,0 +1,165 @@
+/*
+==============================================================
+Author: Taylor Carver
+Course: Algorithms
+Date: 4/6/2026
+Project: Inversion Count via Divede-and-Conquer: This project implements an inversion counting algorithm
+using the divide and conquer paradigm. Given an array of 100,000 distinct integers ranging from 1 to
+100,000. The goal is to computer the total number of inversions — pairs of indices (i, j) where i < j but array[i] > array[j]. 
+*/
+
+using System;
+using System.Diagnostics;
+using System.IO;
+
+class InversionCounter
+{
+    static void Main(string[] args)
+    {
+        //Locate the input file
+        string exeDir = AppContext.BaseDirectory;
+        string inputFile = Path.GetFullPath(
+            Path.Combine(exeDir, "..", "..", "..", "..", "..", "..",
+                         "IntegerArray.txt"));
+        if (!File.Exists(inputFile))
+        {
+             // Fallback: let the user supply a path
+            Console.Write("IntegerArray.txt not found automatically.\n" +
+                          "Enter full path to IntegerArray.txt: ");
+            inputFile = Console.ReadLine()?.Trim() ?? "";
+
+        }
+
+        // Read every integer per line
+        Console.WriteLine($"Reading from: {inputFile}");
+        string[] lines = File.ReadAllLines(inputFile);
+        long[] array = new long[lines.Length];
+        for (int i = 0; i < lines.Length; i++)
+            array[i] = long.Parse(lines[i].Trim());
+
+
+        Console.WriteLine($"Loaded {array.Length:N0} integers.");
+
+        // Runs the algorithm and times it
+            Stopwatch sw = Stopwatch.StartNew();
+        long inversions = SortAndCount(array);
+        sw.Stop();
+
+        // Report the results
+        Console.WriteLine($"\nTotal inversions : {inversions:N0}");
+        Console.WriteLine($"Running time     : {sw.Elapsed.TotalSeconds:F4} seconds");
+
+        // Saves the sorted array to the Result Folder
+        string resultDir = Path.GetFullPath(
+            Path.Combine(exeDir, "..", "..", "..", "..", "..",
+                         "Result"));
+        Directory.CreateDirectory(resultDir);   // creates it if missing
+
+
+        string outputFile = Path.Combine(resultDir, "SortedArray.txt");
+        using (StreamWriter writer = new StreamWriter(outputFile))
+        {
+            foreach (long num in array)
+                writer.WriteLine(num);
+        }
+        Console.WriteLine($"\nSorted array written to:\n  {outputFile}");
+    }
+
+    /*
+     ======================================================
+                   SortAndCount
+        * Recursively sorts 'array' in place and returns 
+        the number of inversions found in it.
+
+        *Base Case: An array of 0 or 1 elements have 0 inverions
+        and is alreayd sorted.
+
+        *Recursive Case: 
+            1. Split the array into left and right halves.
+            2. Recursively sort and count each half.
+            3. Merge the two sorted halves, counting split
+                inversions along the way.
+            4. Return the sum of all three inversion counts.
+
+     ===========================================================
+
+    */
+
+    static long SortAndCount(long[] array)
+    {
+        // Base case - already sorted
+        if (array.Length <= 1)
+            return 0;
+
+        // Step 1: Split //
+        int mid = array.Length / 2;
+
+        long[] left  = new long[mid];
+        long[] right = new long[array.Length - mid];
+
+        Array.Copy(array, 0,   left,  0, mid);
+        Array.Copy(array, mid, right, 0, array.Length - mid);
+
+
+        // Step 2: Recurse //
+         long leftInversions  = SortAndCount(left);
+        long rightInversions = SortAndCount(right);
+
+        // ── Step 3 & 4: Merge + count split inversions ─────────
+        long splitInversions = MergeAndCount(left, right, array);
+
+        return leftInversions + rightInversions + splitInversions;
+    }
+
+    /*
+     ======================================================
+                   Merge and Count
+        *  Merges two already-sorted halves ('left' and 'right')
+           back into 'merged', and counts how many split inversions
+           occur in the process.
+
+     ===========================================================
+
+    */
+
+    static long MergeAndCount(long[] left, long[] right, long[] merged)
+    {
+        long splitInversions = 0;
+        int i = 0;   // pointer into left half
+        int j = 0;   // pointer into right half
+        int k = 0;   // pointer into the merged output
+
+
+        while (i < left.Length && j < right.Length)
+        {
+            if (left[i] <= right[j])
+            {
+                // left element is in the correct relative order — no inversion
+                merged[k++] = left[i++];
+            }
+            else
+            {
+                // right[j] is smaller than left[i] AND every remaining
+                // element in left (since left is sorted).
+                // Each of those remaining left elements would appear BEFORE
+                // right[j] in the original array, so each is an inversion.
+                splitInversions += left.Length - i;
+                merged[k++] = right[j++];
+            }
+        }
+
+
+        // Copy any remaining elements from whichever half isn't exhausted
+        while (i < left.Length)
+            merged[k++] = left[i++];
+
+
+        while (j < right.Length)
+            merged[k++] = right[j++];
+
+
+        return splitInversions;
+    }
+
+
+}
