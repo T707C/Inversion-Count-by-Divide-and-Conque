@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InversionCounter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e3ebf12d9f3decc81a88c4314abeb3152c159ca5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c2092a37a607271bf7d82f7e9afcb46971bfe81")]
 [assembly: System.Reflection.AssemblyProductAttribute("InversionCounter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InversionCounter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
