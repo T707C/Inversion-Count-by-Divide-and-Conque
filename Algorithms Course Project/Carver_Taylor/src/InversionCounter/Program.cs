@@ -63,7 +63,53 @@ class InversionCounter
                 writer.WriteLine(num);
         }
         Console.WriteLine($"\nSorted array written to:\n  {outputFile}");
+    }
 
-        
+    /*
+     ======================================================
+                   SortAndCount
+        * Recursively sorts 'array' in place and returns 
+        the number of inversions found in it.
+
+        *Base Case: An array of 0 or 1 elements have 0 inverions
+        and is alreayd sorted.
+
+        *Recursive Case: 
+            1. Split the array into left and right halves.
+            2. Recursively sort and count each half.
+            3. Merge the two sorted halves, counting split
+                inversions along the way.
+            4. Return the sum of all three inversion counts.
+
+     ===========================================================
+
+    */
+
+    static long SortAndCount(long[] array)
+    {
+        // Base case - already sorted
+        if (array.Length <= 1)
+            return 0;
+
+        // Step 1: Split //
+        int mid = array.Length / 2;
+
+        long[] left  = new long[mid];
+        long[] right = new long[array.Length - mid];
+
+        Array.Copy(array, 0,   left,  0, mid);
+        Array.Copy(array, mid, right, 0, array.Length - mid);
+
+
+        // Step 2: Recurse //
+         long leftInversions  = SortAndCount(left);
+        long rightInversions = SortAndCount(right);
+
+        // ── Step 3 & 4: Merge + count split inversions ─────────
+        long splitInversions = MergeAndCount(left, right, array);
+
+        return leftInversions + rightInversions + splitInversions;
+
+
     }
 }
